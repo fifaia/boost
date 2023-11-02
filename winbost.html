@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	<title>win boost calculator</title>
+</head>
+<body>
+	<div class="main-div">
+		<div class="m-header mm">
+			<select class="form-select" aria-label="Default select example">
+			  <option selected>Open this select menu</option>
+			  <option value="1">One</option>
+			  <option value="2">Two</option>
+			  <option value="3">Three</option>
+			</select>
+			<div class="input-group mmmd">
+			  <input type="number" class="form-control" placeholder="money" aria-label="Username" aria-describedby="basic-addon1" id="money_d">
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+			  <label class="form-check-label" for="flexCheckDefault">
+			    win boost off
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="flexCheckfreebet">
+			  <label class="form-check-label" for="flexCheckDefault">
+			    is Freebet
+			  </label>
+			</div>
+			<button type="button" class="btn btn-success ml-1" onclick="getNumbers()">Get Numbers</button>
+		</div>
+		<div class="inputs mm"></div>
+		<div class="results mm">
+			
+		</div>
+	</div>
+</body>
+	<style>
+		.mmmd{
+			width: 27% !important;
+		}
+
+		.main-div{
+			position: relative;
+			margin: 100px auto;
+			display: flex;
+			width: 800px;
+			height: auto;
+			flex-direction: column;
+    		align-items: center;
+		}
+
+		.ml-1{
+			margin-left: 14px !important;
+		}
+
+		.mm{
+			width: 700px;
+			height: 50px;
+			background-color: #89be89;
+			margin-top: 5px;
+			border-radius: 15px;
+		}
+
+		.m-header{
+			display: flex;
+			lex-direction: row;
+		    align-items: center;
+		    justify-content: flex-start;
+		}
+
+		.inputs{
+			height: auto;
+		}
+
+		.input-group{
+			margin: 4px;
+			width: 98%;
+		}
+
+		.form-control{
+			width: 500px;
+		}
+
+		.form-select{
+			margin-left: 10px;
+			width: 134px;
+		}
+
+		.results{
+			height: auto;
+			display: flex;
+		}
+		.text-j{
+			position: relative;
+			margin: 2px;
+			left: 5px;
+		}
+		.text-j span{
+			font-weight: bold;
+		}
+	</style>
+
+	<script type="text/javascript">
+		let win_boost_numbers = [3,5,10,15,20,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,115,120,130,140,150,
+			170,190,210,240,270,290,305,320,340,360,380,400,420,450,474, 500,525,550,580,610,645,680,710,745,800,840,870,900,930,1000,1200]
+
+		function appendSelector() {
+			$('.form-select').empty();
+			$('.form-select').append(`<option selected>Game Count</option>`)
+			for (var i = 1; i <= 60; i++) {
+				$('.form-select').append(`<option value="${i}">${i}</option>`)
+			}
+			
+		}
+
+		appendSelector();
+
+		function addInputs(numberInputs) {
+			$('.inputs').empty();
+			for (var i = 1; i <= numberInputs; i++) {
+				$('.inputs').append(`<div class="input-group mb-1">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text" id="basic-addon1">Coefficient</span>
+					  </div>
+					  <input type="number" id="dd_${i}" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+					</div>`)
+			}
+		}
+
+		$('.form-select').on('change', function (e) {
+		    var optionSelected = $("option:selected", this);
+		    var valueSelected = this.value;
+		    addInputs(valueSelected)
+
+		});
+
+		function getCoeficients() {
+			let coef = 1;
+			let count = 0;
+			for (var i = 1; i < $('.form-control').length; i++) {
+				let cc = $(`#dd_${i}`).val();
+				if (cc !== '') {
+					coef *= cc
+					if (cc >= 1.2) {
+						count++;
+					}
+				}else{
+					alert('Fill in all the fields')
+					return 0
+				}
+				
+			}
+			return [coef, count];
+		}
+
+		function getNumbers() {
+			let win_boost = false;
+			let win_boost_money = 0;
+			let info = getCoeficients()
+			let TotalOdds = info[0];
+			let gameCount = info[1];
+			let perssent = 0;
+			let governmentMoney = 0;
+			let possiblePayout = 0;
+			let possibleWin = 0;
+			let money = 0;
+			let pp_win;
+
+			if ($('#money_d').val() != '') { money = $('#money_d').val()}else{alert('Enter the amount'); return}
+
+			if (!$('#flexCheckfreebet').is(":checked")) {
+				if (info != 0) {
+					if (info[1] > 3 && !$('#flexCheckDefault').is(":checked")) {
+						win_boost = true
+						perssent = win_boost_numbers[gameCount-4]/100;
+
+					}else{
+						win_boost = false
+					}
+				}
+
+				if (win_boost) {
+					possibleWin = money * toSrting_1(TotalOdds)
+					win_boost_money = toSrting_1((possibleWin - money) * perssent);
+					governmentMoney = parseFloat((possibleWin - money + win_boost_money) * 0.15).toFixed(2);
+					possiblePayout = toSrting_1(possibleWin + win_boost_money - governmentMoney);
+					pp_win = possibleWin + win_boost_money;
+				}else{
+					possibleWin = money * toSrting_1(TotalOdds)
+					governmentMoney = parseFloat((possibleWin - money) * 0.15).toFixed(2);
+					possiblePayout = toSrting_1(possibleWin - governmentMoney);
+					pp_win = possibleWin;
+				}
+			}else{
+				let freebetposwin = 0;
+				possibleWin = money * toSrting_1(TotalOdds)
+				governmentMoney = parseFloat((possibleWin - money) * 0.15).toFixed(2);
+				possiblePayout = toSrting_1(possibleWin - governmentMoney - money);
+				pp_win = possibleWin - money
+				// alert('gamortulia')
+			}
+
+			
+
+			let allData = {
+				'TotalOdds' : toSrting_1(TotalOdds),
+				'BetMoney' : money,
+				'Pick_Perssent' : perssent * 100,
+				'Win_Boost_Money' : win_boost_money,
+				'Possible_Win' : pp_win,
+				'Tax' : governmentMoney,
+				'Possible_PayOut' : possiblePayout
+			}
+
+			drawResult(allData)
+			console.log(allData);
+		}
+
+		function toSrting_1(number) {
+			let n = String(number);
+			b = n.split('.');
+			if (b[1] > 2 ) {
+				n = `${b[0]}.${b[1][0]}`
+				n = n.concat(b[1][1]);
+			}
+			
+			n = parseFloat(n);
+			return n;
+		}
+
+		function drawResult(allData) {
+			$('.results').empty()
+
+			$('.results').append(`
+				<div class="text-j"><span>TotalOdds</span> ${allData.TotalOdds}</div>
+				<div class="text-j"><span>BetMoney</span> ${allData.BetMoney}</div>
+			<div class="text-j"><span>%</span> ${allData.Pick_Perssent}</div>
+			<div class="text-j"><span>Win Boost</span> ${allData.Win_Boost_Money}</div>
+			<div class="text-j"><span>Possible Win</span> ${allData.Possible_Win}</div>
+			<div class="text-j"><span>Tax</span> ${allData.Tax}</div>
+			<div class="text-j"><span>Possible PayOut</span> ${allData.Possible_PayOut}</div>
+				`)
+		}
+	</script>
+</html>
