@@ -187,19 +187,19 @@
 					win_boost_money = toSrting_1((possibleWin - money) * perssent);
 					governmentMoney = parseFloat((possibleWin - money + win_boost_money) * 0.15).toFixed(2);
 					possiblePayout = toSrting_1(possibleWin + win_boost_money - governmentMoney);
-					pp_win = possibleWin + win_boost_money;
+					pp_win = parseFloat(possibleWin).toFixed(2) + win_boost_money;
 				}else{
 					possibleWin = money * toSrting_1(TotalOdds)
 					governmentMoney = parseFloat((possibleWin - money) * 0.15).toFixed(2);
 					possiblePayout = toSrting_1(possibleWin - governmentMoney);
-					pp_win = possibleWin;
+					pp_win = parseFloat(possibleWin).toFixed(2);
 				}
 			}else{
 				let freebetposwin = 0;
 				possibleWin = money * toSrting_1(TotalOdds)
 				governmentMoney = parseFloat((possibleWin - money) * 0.15).toFixed(2);
 				possiblePayout = toSrting_1(possibleWin - governmentMoney - money);
-				pp_win = possibleWin - money
+				pp_win = parseFloat(possibleWin).toFixed(2) - money
 				// alert('gamortulia')
 			}
 
